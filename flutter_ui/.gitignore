@@ -3,4 +3,6 @@
 /.flutter-plugins-dependencies
 /.idea
 /.metadata
+/example/.metadata
+*.iml
 /build/
