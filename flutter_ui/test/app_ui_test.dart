@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_ui/app_ui.dart';
+
+import '../lib/app_ui.dart';
 
 void main() {
   group('Barrel Export Tests', () {

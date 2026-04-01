@@ -12,19 +12,14 @@ class VerifyResetPasswordScreen extends StatefulWidget {
   final String? userId;
   final bool? isPhone;
 
-  const VerifyResetPasswordScreen({
-    super.key,
-    this.userId,
-    this.isPhone,
-  });
+  const VerifyResetPasswordScreen({super.key, this.userId, this.isPhone});
 
   @override
   State<VerifyResetPasswordScreen> createState() =>
       _VerifyResetPasswordScreenState();
 }
 
-class _VerifyResetPasswordScreenState
-    extends State<VerifyResetPasswordScreen> {
+class _VerifyResetPasswordScreenState extends State<VerifyResetPasswordScreen> {
   final _formKey = GlobalKey<FormState>();
   final _otpController = TextEditingController();
   final _newPasswordController = TextEditingController();
@@ -43,12 +38,12 @@ class _VerifyResetPasswordScreenState
   void _handleVerifyResetPassword() {
     if (_formKey.currentState!.validate() && widget.userId != null) {
       context.read<AuthBloc>().add(
-            VerifyResetPasswordEvent(
-              userId: widget.userId!,
-              otp: _otpController.text,
-              newPassword: _newPasswordController.text,
-            ),
-          );
+        VerifyResetPasswordEvent(
+          userId: widget.userId!,
+          otp: _otpController.text,
+          newPassword: _newPasswordController.text,
+        ),
+      );
     }
   }
 
@@ -106,9 +101,7 @@ class _VerifyResetPasswordScreenState
                     label: 'OTP Code',
                     hint: 'Enter OTP',
                     prefixIcon: Icons.lock_clock,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                    ],
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter OTP';
@@ -126,8 +119,9 @@ class _VerifyResetPasswordScreenState
                     label: 'New Password',
                     hint: 'Enter new password',
                     prefixIcon: Icons.lock,
-                    suffixIcon:
-                        _obscurePassword ? Icons.visibility : Icons.visibility_off,
+                    suffixIcon: _obscurePassword
+                        ? Icons.visibility
+                        : Icons.visibility_off,
                     onSuffixPressed: () {
                       setState(() {
                         _obscurePassword = !_obscurePassword;
@@ -183,4 +177,3 @@ class _VerifyResetPasswordScreenState
     );
   }
 }
-

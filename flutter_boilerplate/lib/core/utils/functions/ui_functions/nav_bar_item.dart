@@ -9,24 +9,23 @@ PersistentBottomNavBarItem getNavBarItem(
   required String icon,
   required VoidCallback onPressed,
   bool isDisabled = false,
-}) =>
-    PersistentBottomNavBarItem(
-      icon: _mainIcon(
-        context,
-        title: title,
-        icon: icon,
-        isActive: true,
-        isDisabled: isDisabled,
-      ),
-      inactiveIcon: _mainIcon(
-        context,
-        title: title,
-        icon: icon,
-        isActive: false,
-        isDisabled: isDisabled,
-      ),
-      onPressed: isDisabled ? (context) {} : (context) => onPressed(),
-    );
+}) => PersistentBottomNavBarItem(
+  icon: _mainIcon(
+    context,
+    title: title,
+    icon: icon,
+    isActive: true,
+    isDisabled: isDisabled,
+  ),
+  inactiveIcon: _mainIcon(
+    context,
+    title: title,
+    icon: icon,
+    isActive: false,
+    isDisabled: isDisabled,
+  ),
+  onPressed: isDisabled ? (context) {} : (context) => onPressed(),
+);
 
 Widget _mainIcon(
   BuildContext context, {
@@ -62,8 +61,8 @@ Widget _mainIcon(
           isDisabled
               ? AppColors.textPrimary.withValues(alpha: 0.3)
               : isActive
-                  ? AppColors.surface
-                  : AppColors.textSecondary,
+              ? AppColors.surface
+              : AppColors.textSecondary,
           BlendMode.srcIn,
         ),
       ),
@@ -73,8 +72,8 @@ Widget _mainIcon(
           color: isDisabled
               ? AppColors.textPrimary.withValues(alpha: 0.3)
               : isActive
-                  ? AppColors.surface
-                  : AppColors.textSecondary,
+              ? AppColors.surface
+              : AppColors.textSecondary,
         ),
         maxLines: 1,
         overflow: TextOverflow.clip,
