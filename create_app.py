@@ -161,11 +161,15 @@ class FlutterProjectCreator:
         """Copy the entire project structure from source"""
         self.print_color(Colors.BLUE, "📁 Copying project structure...")
         
-        # Create destination directory
-        dest_dir = self.output_root / self.project_name
-        if dest_dir.exists():
-            self.print_color(Colors.RED, f"❌ Directory '{dest_dir}' already exists")
+        # Create parent project directory and app destination directory
+        parent_dir = self.output_root / self.project_name
+        dest_dir = parent_dir / self.project_name
+
+        if parent_dir.exists():
+            self.print_color(Colors.RED, f"❌ Directory '{parent_dir}' already exists")
             sys.exit(1)
+
+        parent_dir.mkdir(parents=True, exist_ok=False)
             
         # Copy the entire source project
         shutil.copytree(self.source_project, dest_dir)
@@ -179,7 +183,7 @@ class FlutterProjectCreator:
         # Also copy the flutter_ui package to the parent directory with the custom name
         source_ui = self.source_ui
         if source_ui.exists():
-            dest_ui = Path(f'../{self.ui_package_name}')
+            dest_ui = parent_dir / self.ui_package_name
             if dest_ui.exists():
                 shutil.rmtree(dest_ui)
             
@@ -687,13 +691,17 @@ linter:
         
     def display_completion(self):
         """Display completion message"""
+        parent_path = Path(os.getcwd()).parent
+
         print()
         self.print_color(Colors.GREEN, "🎉 Project setup completed successfully!")
         print()
-        self.print_color(Colors.CYAN, f"📁 Project created at: {os.getcwd()}")
+        self.print_color(Colors.CYAN, f"📁 Project folder: {parent_path}")
+        self.print_color(Colors.CYAN, f"📁 App folder: {os.getcwd()}")
+        self.print_color(Colors.CYAN, f"📁 UI package folder: {parent_path / self.ui_package_name}")
         print()
         self.print_color(Colors.YELLOW, "🚀 Next steps:")
-        print(f"   1. cd {self.project_name}")
+        print(f"   1. cd {self.project_name}/{self.project_name}")
         print("   2. flutter run")
         print()
         self.print_color(Colors.PURPLE, "📖 Available commands:")

@@ -1,170 +1,223 @@
-# Flutter Boilerplate - Production Ready
+# Create App Tool - Usage Guide
 
-A comprehensive Flutter boilerplate with modern architecture, dependency injection, error monitoring, and production-ready features.
+This tool creates a new Flutter project using your existing working boilerplate as a template, with custom app names and UI package names.
 
-## 🚀 Features
+## 🚀 Quick Start
 
-### Architecture & State Management
-- **Clean Architecture** with separation of concerns
-- **BLoC Pattern** for state management with base classes
-- **Dependency Injection** using GetIt + Injectable
-- **Repository Pattern** with error handling
+### Clone and Start from CLI
+```bash
+# 1) Clone the repository
+git clone https://github.com/habte032/flutter-mobile-starter.git flutter_boilerplate
 
-### Error Handling & Monitoring
-- **Sentry Integration** for crash reporting and performance monitoring
-- **Centralized Logging** with different log levels
-- **Error Boundaries** in BLoC and Repository layers
-- **Network Error Handling** with retry mechanisms
+# 2) Enter the workspace root
+cd flutter_boilerplate
 
-### Network & API
-- **Dio HTTP Client** with interceptors
-- **Automatic Token Refresh** for authentication
-- **Network Connectivity** checking
-- **Chuck Interceptor** for API debugging (debug mode only)
-- **Request/Response Logging** with Sentry breadcrumbs
-
-### Storage & Caching
-- **Hive** for local storage
-- **Shared Preferences** for simple key-value storage
-- **Secure Token Storage** with automatic cleanup
-
-### UI & Theming
-- **Responsive Design** with ScreenUtil
-- **Dark/Light Theme** support
-- **Google Fonts** integration
-- **Consistent UI Constants** and spacing
-
-### Development & Quality
-- **Very Good Analysis** for strict linting
-- **Code Generation** for models and dependency injection
-- **Environment Configuration** with .env files
-- **Build Configuration** for different environments
-
-## 📁 Project Structure
-
-```
-lib/
-├── core/
-│   ├── base/                 # Base classes for BLoC, Repository, UseCase
-│   ├── config/               # App configuration and environment
-│   ├── di/                   # Dependency injection setup
-│   ├── databases/            # API client and network layer
-│   ├── errors/               # Error handling and failures
-│   ├── logging/              # Centralized logging service
-│   ├── monitoring/           # Sentry and error monitoring
-│   ├── storage/              # Local storage services
-│   └── utils/                # Utilities and constants
-├── features/                 # Feature modules (Clean Architecture)
-│   └── auth/                 # Example authentication feature
-│       ├── data/             # Data sources and repositories
-│       ├── domain/           # Entities, repositories, and use cases
-│       └── presentation/     # UI, BLoC, and widgets
-├── config/                   # App-level configuration
-│   ├── router/               # Navigation and routing
-│   └── theme/                # App theming
-└── main.dart                 # App entry point
+# 3) Start the generator from CLI (interactive)
+./flutter_boilerplate/create_app.sh
 ```
 
-## 🛠 Setup
-
-### 1. Environment Configuration
-
-Create a `.env` file in the root directory:
-
-```env
-# Environment Configuration
-ENVIRONMENT=development
-APP_NAME=Flutter Boilerplate
-
-# API Configuration
-API_BASE_URL=https://api.example.com
-API_TIMEOUT=30000
-
-# Sentry Configuration
-SENTRY_DSN=your_sentry_dsn_here
-SENTRY_ENVIRONMENT=development
-
-# Feature Flags
-ENABLE_LOGGING=true
-ENABLE_CHUCK_INTERCEPTOR=true
+Or run directly with Python:
+```bash
+python3 flutter_boilerplate/create_app.py
 ```
 
-### 2. Install Dependencies
+### Interactive Mode (Recommended)
+```bash
+# Run interactive setup
+./flutter_boilerplate/create_app.sh
+# or
+python3 flutter_boilerplate/create_app.py
+```
+
+### CLI Mode
+```bash
+# Basic usage
+python3 flutter_boilerplate/create_app.py --name my_awesome_app
+
+# Full customization
+python3 flutter_boilerplate/create_app.py \
+  --name ecommerce_store \
+  --package com.mystore.ecommerce \
+  --description "Modern e-commerce mobile application" \
+  --ui-name ecommerce_ui
+```
+
+## 📋 What It Does
+
+1. **Copies your working project** from `flutter_boilerplate/flutter_boilerplate/`
+2. **Creates a parent folder with your project name** (next to `flutter_boilerplate/`)
+3. **Creates app and UI package folders inside that parent folder**
+4. **Renames everything** with your custom names:
+   - Project name in `pubspec.yaml`
+   - App class name in `main.dart` (e.g., `MyApp` → `EcommerceStoreApp`)
+   - UI package name and imports
+   - Package identifiers in Android/iOS configs
+5. **Updates imports** to use your custom UI package name
+6. **Fixes deprecations** (like `textScaleFactor` → `textScaler`)
+7. **Installs dependencies** for both main project and UI package
+8. **Runs code generation** (build_runner)
+9. **Initializes Git** repository
+
+## 🎯 Examples
+
+### E-commerce App
+```bash
+python3 flutter_boilerplate/create_app.py \
+  --name ecommerce_store \
+  --package com.mystore.ecommerce \
+  --ui-name store_ui
+```
+
+**Result:**
+- Project: `ecommerce_store/`
+- App class: `EcommerceStoreApp`
+- UI package: `store_ui`
+- Import: `import 'package:store_ui/app_ui.dart';`
+
+### Social Media App
+```bash
+python3 flutter_boilerplate/create_app.py \
+  --name social_connect \
+  --package com.social.connect \
+  --ui-name social_ui
+```
+
+**Result:**
+- Project: `social_connect/`
+- App class: `SocialConnectApp`
+- UI package: `social_ui`
+- Import: `import 'package:social_ui/app_ui.dart';`
+
+### Fitness Tracker
+```bash
+python3 flutter_boilerplate/create_app.py \
+  --name fitness_buddy \
+  --package com.health.fitness \
+  --ui-name fitness_ui
+```
+
+**Result:**
+- Project: `fitness_buddy/`
+- App class: `FitnessBuddyApp`
+- UI package: `fitness_ui`
+- Import: `import 'package:fitness_ui/app_ui.dart';`
+
+## 📁 Project Structure After Creation
+
+```
+my_awesome_app/                    # Parent folder (project workspace)
+├── my_awesome_app/               # Flutter app project
+│   ├── android/                  # Android config (updated package name)
+│   ├── ios/                      # iOS config (updated bundle ID)
+│   ├── lib/
+│   │   ├── main.dart             # Updated with MyAwesomeAppApp class
+│   │   ├── config/
+│   │   ├── core/
+│   │   └── features/
+│   ├── pubspec.yaml              # Updated project name and UI dependency
+│   └── ...
+└── my_awesome_app_ui/            # Your custom UI package
+  ├── lib/
+  │   ├── app_ui.dart           # Main export file
+  │   └── src/
+  │       ├── components/
+  │       └── config/
+  └── pubspec.yaml              # Updated UI package name
+```
+
+## 🔧 CLI Arguments
+
+| Argument | Short | Description | Example |
+|----------|-------|-------------|---------|
+| `--name` | `-n` | Project name (required for CLI mode) | `my_awesome_app` |
+| `--package` | `-p` | Package name (reverse domain) | `com.company.myapp` |
+| `--description` | `-d` | Project description | `"My awesome app"` |
+| `--ui-name` | `-u` | UI package name | `my_awesome_ui` |
+| `--skip-codegen` | | Skip build_runner code generation | |
+| `--skip-git` | | Skip git repository initialization | |
+
+## ✅ What Gets Updated
+
+### main.dart
+```dart
+// Before
+import 'package:flutter_ui/app_ui.dart';
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+  // ...
+}
+runApp(const MyApp());
+
+// After (for ecommerce_store with store_ui)
+import 'package:store_ui/app_ui.dart';
+class EcommerceStoreApp extends StatelessWidget {
+  const EcommerceStoreApp({super.key});
+  // ...
+}
+runApp(const EcommerceStoreApp());
+```
+
+### pubspec.yaml
+```yaml
+# Before
+name: flutter_boilerplate
+description: "A new Flutter project."
+dependencies:
+  flutter_ui:
+    path: ../flutter_ui
+
+# After
+name: ecommerce_store
+description: "Modern e-commerce mobile application"
+dependencies:
+  store_ui:
+    path: ../store_ui
+```
+
+## 🚀 After Creation
 
 ```bash
-flutter pub get
-```
+# Navigate to your new app project
+cd my_awesome_app/my_awesome_app
 
-### 3. Generate Code
-
-```bash
-flutter packages pub run build_runner build --delete-conflicting-outputs
-```
-
-### 4. Run the App
-
-```bash
+# Run the app
 flutter run
+
+# Run tests
+flutter test
+
+# Build for production
+flutter build apk
 ```
 
-## 🏗 Architecture Overview
+## 🎨 Customizing Your UI Package
 
-### Dependency Injection
-The app uses GetIt with Injectable for dependency injection. All services are registered in `lib/core/di/injection.dart`.
+Your custom UI package (`my_awesome_app_ui`) contains:
+- Design tokens (colors, spacing, typography)
+- Reusable components (buttons, forms, cards)
+- Theme configuration
 
-### Error Handling
-- **Repository Level**: All API calls are wrapped in `safeCall` method
-- **BLoC Level**: Base BLoC handles errors and logs them
-- **Global Level**: Sentry captures unhandled exceptions
+Edit files in `../my_awesome_app_ui/lib/src/` to customize your design system.
 
-### State Management
-- Uses BLoC pattern with base classes for consistent error handling
-- Events and states extend base classes with Equatable
-- Automatic logging and monitoring for all BLoC events
+## 🔍 Troubleshooting
 
-### Network Layer
-- Dio client with multiple interceptors
-- Automatic token refresh on 401 errors
-- Retry mechanism for network timeouts
-- Chuck interceptor for debugging (development only)
+### "Source project not found"
+- Ensure `flutter_boilerplate/create_app.py` exists
+- Ensure `flutter_boilerplate/flutter_boilerplate/pubspec.yaml` exists
 
-## 🔧 Configuration
+### "Directory already exists"
+- Choose a different project name
+- Or delete the existing directory first
 
-### Adding New Features
-1. Create feature folder in `lib/features/`
-2. Follow Clean Architecture structure (data/domain/presentation)
-3. Register dependencies in `injection.dart`
-4. Extend base classes for consistent behavior
+### Code generation fails
+- Run `flutter clean && flutter pub get`
+- Try running `flutter packages pub run build_runner clean` first
 
-### Environment Setup
-- Development: Uses `.env` file
-- Staging/Production: Override environment variables in CI/CD
+## 💡 Tips
 
-### Sentry Setup
-1. Create Sentry project
-2. Add DSN to `.env` file
-3. Configure release tracking in CI/CD
+1. **Use descriptive names**: `ecommerce_store` instead of `app1`
+2. **Follow naming conventions**: lowercase with underscores
+3. **Keep UI package names consistent**: `{project_name}_ui`
+4. **Test immediately**: Run `flutter run` after creation to verify everything works
 
-## 📱 Production Checklist
-
-- [ ] Update app name and package identifier
-- [ ] Configure Sentry DSN for production
-- [ ] Set up proper API endpoints
-- [ ] Configure app icons and splash screen
-- [ ] Set up CI/CD pipeline
-- [ ] Configure code signing
-- [ ] Test on different devices and screen sizes
-- [ ] Performance testing and optimization
-- [ ] Security review and penetration testing
-
-## 🤝 Contributing
-
-1. Follow the established architecture patterns
-2. Write tests for new features
-3. Update documentation
-4. Follow the linting rules
-5. Use conventional commits
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
+This tool gives you a fully working Flutter project based on your proven boilerplate, with all the custom naming you need! 🎉
